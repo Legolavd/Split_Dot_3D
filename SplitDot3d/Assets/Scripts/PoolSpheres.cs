@@ -7,11 +7,10 @@ public class PoolSpheres : MonoBehaviour
     [SerializeField]
     GameObject prefab;
 
-    [SerializeField]
     static Transform parent;
 
     [SerializeField]
-    static List<GameObject> pool = new List<GameObject>();
+    static Stack<GameObject> poolHide = new Stack<GameObject>();
 
     [SerializeField]
     [Range(1, 300)]
@@ -20,35 +19,29 @@ public class PoolSpheres : MonoBehaviour
     public static int currentObject = 0;
     void Start()
     {
+        parent = GameObject.Find("Pool").transform;
         for(int i = 0; i < SizePool; i++)
         {
-            pool.Add(Instantiate(prefab, parent));
+            GameObject obj = Instantiate(prefab, parent);
+            obj.name = obj.name + i;
+            poolHide.Push(obj);
         }
-        AddFirstObjectInScene();
+        poolHide.Peek().transform.position = new Vector3(0, 0, 0);
     }
-
-    public void AddFirstObjectInScene()
-    {
-        pool[currentObject].transform.position = new Vector3(0, 0, 0);
-    }
-    public static void MoveFirst()
-    {
-        pool[currentObject].GetComponent<MoveSphere>().Move(Vector3.forward);
-        currentObject++;
-    }
-    public static void AddObjectInScene()
-    {
-        
-    }
-
    
-
-
-    // Update is called once per frame
-    void Update()
+    public static GameObject InstantiateFromPool()
     {
-        
+        if(poolHide.Count > 0)
+        {
+            return poolHide.Pop();
+        }
+        return null;
     }
+    public static void DestroyInPool(GameObject obj)
+    {
+        poolHide.Push(obj);
+    }
+   
 
 
 }

@@ -26,11 +26,9 @@ public class PlayerController : MonoBehaviour
             if(GameManager.startLvl)
             {
                 GameManager.startLvl = false;
-                PoolSpheres.MoveFirst();
-            }
-            else if(PoolSpheres.currentObject > 0)
-            {
-                PoolSpheres.Ad
+                GameObject firstObj = PoolSpheres.InstantiateFromPool();
+                firstObj.transform.position = new Vector3(0, 0, 0);
+                firstObj.GetComponent<MoveSphere>().Move(new Vector3(-90, 90, 180));
             }
         }
 
