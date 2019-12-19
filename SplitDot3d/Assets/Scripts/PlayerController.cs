@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
                 GameObject firstObj = PoolSpheres.InstantiateFromPool();
                 firstObj.transform.position = new Vector3(0, 0, 0);
                 firstObj.GetComponent<MoveSphere>().Move(new Vector3(-90, 90, 180));
+                MoveCamera.StartMove();
             }
         }
 

@@ -12,9 +12,12 @@ public class PoolSpheres : MonoBehaviour
     [SerializeField]
     static Stack<GameObject> poolHide = new Stack<GameObject>();
 
+
     [SerializeField]
     [Range(1, 300)]
     int SizePool = 100;
+
+
 
     public static int currentObject = 0;
     void Start()
@@ -23,12 +26,16 @@ public class PoolSpheres : MonoBehaviour
         for(int i = 0; i < SizePool; i++)
         {
             GameObject obj = Instantiate(prefab, parent);
+            TrailRenderer tr = obj.GetComponent<TrailRenderer>();
+            tr.enabled = false;
+             
             obj.name = obj.name + i;
             poolHide.Push(obj);
         }
         poolHide.Peek().transform.position = new Vector3(0, 0, 0);
+        topObj = poolHide.Peek();
     }
-   
+
     public static GameObject InstantiateFromPool()
     {
         if(poolHide.Count > 0)
@@ -41,7 +48,13 @@ public class PoolSpheres : MonoBehaviour
     {
         poolHide.Push(obj);
     }
-   
+
+    public static GameObject topObj;
+    private void Update()
+    {
+
+    }
+
 
 
 }
